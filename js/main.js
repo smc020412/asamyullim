@@ -110,40 +110,27 @@ function renderSiteFooter() {
   if (!footerTarget) return;
 
   const basePath = getBasePath(getCurrentPage());
-  const currentPage = getCurrentPage();
-  const navLinks = siteConfig.navItems
-    .map((item) => `<a href="${getNavItemHref(item, currentPage, basePath)}">${item.label}</a>`)
-    .join("");
 
   footerTarget.outerHTML = `
     <footer class="site-footer">
       <div class="container footer-inner">
-        <nav class="footer-nav" aria-label="Footer navigation">
-          ${navLinks}
-        </nav>
-
         <div class="footer-content">
           <a class="footer-logo" href="${basePath}index.html" aria-label="Home">
-            <img src="${basePath}images/로고.png" alt="Company logo" />
+            <img src="${basePath}images/로고.png" alt="아산율림" />
           </a>
 
-          <div class="footer-info footer-service">
-            <p><strong>Customer Service</strong></p>
-            <p><strong>Phone :</strong> 000-0000-0000</p>
-            <p><strong>Business Hours :</strong> Weekdays from 10:00 AM to 6:00 PM</p>
-            <p>(Lunch Break: 12:00 PM to 1:00 PM)</p>
-            <p><strong>Bank Account :</strong> Bank Name 000-0000-0000-00</p>
-            <p>(Account Holder)</p>
-            <p><strong>Business Name :</strong> Company Name</p>
+          <div class="footer-info footer-company">
+            <p><strong>아산율림영농조합법인</strong></p>
+            <p>대표자 : 윤태하</p>
+            <p>통신판매업 신고번호 : 제 2013-충남아산-0024 호</p>
+            <p>사업자 등록번호 : 312-81-30347</p>
           </div>
 
-          <div class="footer-info footer-company">
-            <p><strong>CEO :</strong> CEO Name</p>
-            <p><strong>Headquarters :</strong> Company Address</p>
-            <p><strong>Business Registration Number :</strong> 000-00-00000</p>
-            <p><strong>E-commerce Business Registration Number :</strong></p>
-            <p>0000-Region-0000</p>
-            <p><strong>E-mail :</strong> email@example.com</p>
+          <div class="footer-info footer-contact">
+            <p><strong>문의</strong></p>
+            <p>전화번호 : 010-6486-6072</p>
+            <p>주소 : 충남 아산시 송악면 외암로 344</p>
+            <p>이메일 : dwtrading@hanmail.net</p>
           </div>
         </div>
       </div>
@@ -596,9 +583,12 @@ function initHomeHeroSlider() {
 }
 
 function initHomeProductCarousel() {
-  const carousel = document.querySelector(".home-product-carousel");
-  const track = carousel?.querySelector(".home-product-track");
-  if (!carousel || !track || track.children.length < 2) return;
+  const carousels = document.querySelectorAll(".home-product-carousel");
+  if (!carousels.length) return;
+
+  carousels.forEach((carousel) => {
+  const track = carousel.querySelector(".home-product-track");
+  if (!track || track.children.length < 2) return;
 
   let offset = 0;
   let autoTimer = null;
@@ -778,6 +768,7 @@ function initHomeProductCarousel() {
   offset = -getStep();
   render();
   startAuto();
+  });
 }
 
 renderSiteHeader();

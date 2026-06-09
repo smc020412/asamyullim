@@ -107,20 +107,13 @@
     width: min(100% - 32px, 620px);
   }
 
-  .footer-nav {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 14px 22px;
-    margin-bottom: 34px;
-  }
-
   .footer-content {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 34px;
   }
 
   .footer-logo img {
-    width: 104px;
+    width: min(220px, 76vw);
   }
 }
 

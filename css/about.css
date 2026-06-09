@@ -1,1 +1,345 @@
 /* Company overview page styles */
+
+.about-intro {
+  padding-top: var(--header-height);
+  background: #fff0bf;
+}
+
+.about-intro-copy {
+  display: grid;
+  justify-items: center;
+  padding: clamp(42px, 4.6vw, 68px) 24px clamp(40px, 4.2vw, 62px);
+  color: var(--color-black);
+  text-align: center;
+}
+
+.about-intro-eyebrow {
+  margin: 0 0 18px;
+  font-size: clamp(1.05rem, 1.42vw, 1.42rem);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.about-intro-copy h1 {
+  margin: 0 0 28px;
+  font-size: clamp(2.2rem, 4.2vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0.12em;
+}
+
+.about-intro-description {
+  margin: 0;
+  font-size: clamp(0.98rem, 1.18vw, 1.22rem);
+  font-weight: 400;
+  line-height: 2;
+}
+
+.about-intro-visual {
+  min-height: clamp(150px, 13vw, 230px);
+  background-image: url("../images/대문2.jpg");
+  background-attachment: fixed;
+  background-position: center bottom;
+  background-size: cover;
+}
+
+.about-philosophy {
+  padding: clamp(82px, 8vw, 124px) 0 clamp(92px, 9vw, 136px);
+  background: var(--color-white);
+}
+
+.about-philosophy-copy {
+  width: min(100% - 48px, 740px);
+  margin-left: min(43vw, 760px);
+  color: var(--color-black);
+}
+
+.about-philosophy-copy h2 {
+  margin: 0 0 clamp(32px, 3.4vw, 48px);
+  font-size: clamp(1.9rem, 2.5vw, 2.7rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+.about-philosophy-copy p {
+  margin: 0;
+  font-size: clamp(1rem, 1.28vw, 1.34rem);
+  font-weight: 400;
+  line-height: 2.08;
+  word-break: keep-all;
+}
+
+.about-products {
+  padding: clamp(58px, 6vw, 88px) 0 clamp(76px, 8vw, 112px);
+  background: #fff0bf;
+}
+
+.about-products-inner {
+  width: min(100% - 56px, 1080px);
+  margin: 0 auto;
+}
+
+.about-products h2 {
+  margin: 0 0 clamp(34px, 3.8vw, 54px);
+  color: var(--color-black);
+  font-size: clamp(2rem, 3.1vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: 0.16em;
+}
+
+.about-products-image {
+  width: min(100%, 1080px);
+  max-height: clamp(250px, 22vw, 370px);
+  margin: 0 auto clamp(38px, 4vw, 58px);
+  object-fit: cover;
+}
+
+.about-products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(34px, 4vw, 64px);
+}
+
+.about-products-item h3 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  color: var(--color-black);
+  font-size: clamp(1.32rem, 1.72vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  border-bottom: 1px solid var(--color-black);
+}
+
+.about-products-item p {
+  margin: 0;
+  color: var(--color-black);
+  font-size: clamp(0.94rem, 1.08vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.85;
+  word-break: keep-all;
+}
+
+.about-vision {
+  overflow: hidden;
+  padding: clamp(78px, 7.5vw, 118px) 0 clamp(72px, 7vw, 104px);
+  background: var(--color-white);
+}
+
+.about-vision-copy {
+  width: min(100% - 96px, 1080px);
+  margin: 0 auto clamp(56px, 6vw, 88px);
+  color: var(--color-black);
+}
+
+.about-vision-copy h2 {
+  margin: 0 0 clamp(34px, 3.4vw, 48px);
+  font-size: clamp(1.48rem, 1.78vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.about-vision-copy p {
+  margin: 0;
+  max-width: 680px;
+  font-size: clamp(0.84rem, 0.92vw, 0.96rem);
+  font-weight: 400;
+  line-height: 2;
+  word-break: keep-all;
+}
+
+.about-vision-carousel {
+  width: min(100% - 96px, 1080px);
+  margin: 0 auto;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.about-vision-carousel.is-dragging {
+  cursor: grabbing;
+}
+
+.about-vision-carousel .home-product-track {
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  transform: translateX(0);
+  will-change: transform;
+}
+
+.about-vision-carousel .home-product-card {
+  flex: 0 0 clamp(224px, 18.7vw, 318px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: #fafafa;
+  border: 1px solid #eeeeee;
+}
+
+.about-vision-carousel .home-product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.about-store-cta {
+  display: grid;
+  min-height: clamp(330px, 28vw, 460px);
+  place-items: center;
+  overflow: hidden;
+  color: var(--color-white);
+  text-align: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../images/오렌지.png");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
+.about-store-cta-inner {
+  display: grid;
+  justify-items: center;
+  width: min(100% - 48px, 980px);
+}
+
+.about-store-cta p {
+  margin: 0 0 clamp(34px, 4vw, 52px);
+  font-size: clamp(0.96rem, 1.25vw, 1.34rem);
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.about-store-cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 144px;
+  min-height: 46px;
+  padding: 0 26px;
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.about-store-cta-button:hover {
+  color: var(--color-black);
+  background: var(--color-white);
+}
+
+@media (max-width: 860px) {
+  .about-intro-copy {
+    padding: 42px 24px 40px;
+  }
+
+  .about-intro-copy h1 {
+    font-size: clamp(2rem, 9vw, 3rem);
+    letter-spacing: 0.06em;
+  }
+
+  .about-intro-description {
+    font-size: 0.96rem;
+    line-height: 1.8;
+  }
+
+  .about-intro-visual {
+    min-height: 180px;
+    background-attachment: scroll;
+  }
+
+  .about-philosophy {
+    padding: 68px 0 78px;
+  }
+
+  .about-philosophy-copy {
+    width: min(100% - 40px, 620px);
+    margin: 0 auto;
+  }
+
+  .about-philosophy-copy h2 {
+    margin-bottom: 28px;
+    font-size: clamp(1.7rem, 7vw, 2.25rem);
+  }
+
+  .about-philosophy-copy p {
+    font-size: 0.98rem;
+    line-height: 1.9;
+  }
+
+  .about-products {
+    padding: 52px 0 68px;
+  }
+
+  .about-products-inner {
+    width: min(100% - 40px, 620px);
+  }
+
+  .about-products h2 {
+    margin-bottom: 32px;
+    font-size: clamp(1.7rem, 8vw, 2.5rem);
+    letter-spacing: 0.1em;
+  }
+
+  .about-products-image {
+    max-height: none;
+    margin-bottom: 34px;
+  }
+
+  .about-products-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .about-products-item h3 {
+    font-size: 1.35rem;
+  }
+
+  .about-products-item p {
+    font-size: 0.96rem;
+  }
+
+  .about-vision {
+    padding: 64px 0;
+  }
+
+  .about-vision-copy {
+    width: min(100% - 32px, 620px);
+    margin: 0 auto 44px;
+  }
+
+  .about-vision-copy h2 {
+    margin-bottom: 24px;
+    font-size: clamp(1.55rem, 6vw, 2rem);
+  }
+
+  .about-vision-copy p {
+    font-size: 0.94rem;
+    line-height: 1.85;
+  }
+
+  .about-vision-carousel {
+    width: min(100% - 32px, 620px);
+  }
+
+  .about-vision-carousel .home-product-card {
+    flex-basis: min(72vw, 300px);
+  }
+
+  .about-store-cta {
+    min-height: 360px;
+    background-attachment: scroll;
+  }
+
+  .about-store-cta p {
+    font-size: clamp(0.92rem, 3.7vw, 1.08rem);
+  }
+}
