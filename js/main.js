@@ -1,10 +1,10 @@
 const siteConfig = {
-  blogUrl: "#",
-  storeUrl: "#",
+  overlayHeaderPages: ["home"],
   navItems: [
-    { key: "about", label: "Company Overview", path: "about/" },
-    { key: "works", label: "Product Description", path: "works/" },
-    { key: "contact", label: "Contact", path: "contact/" },
+    { key: "about", label: "About", hoverLabel: "회사소개", path: "about/" },
+    { key: "works", label: "Product", hoverLabel: "아산율림제품", path: "works/" },
+    { key: "contact", label: "Contact", hoverLabel: "연락처", path: "contact/" },
+    { key: "store", label: "Store", hoverLabel: "네이버스토어", href: "https://smartstore.naver.com/asanyulim" },
   ],
 };
 
@@ -21,20 +21,28 @@ function getBasePath(page) {
   return page === "home" ? "./" : "../";
 }
 
+function getNavItemHref(item, currentPage, basePath) {
+  return item.href || (currentPage === item.key ? "./" : `${basePath}${item.path}`);
+}
+
 function renderSiteHeader() {
   const headerTarget = document.querySelector("[data-site-header]");
   if (!headerTarget) return;
 
   const currentPage = getCurrentPage();
   const basePath = getBasePath(currentPage);
-  const usesOverlayHeader =
-    currentPage === "home" || currentPage === "about" || currentPage === "works" || currentPage === "contact";
+  const usesOverlayHeader = siteConfig.overlayHeaderPages.includes(currentPage);
   const headerClass = usesOverlayHeader ? "site-header is-overlay is-at-top" : "site-header is-scrolled";
   const navLinks = siteConfig.navItems
     .map((item) => {
-      const href = currentPage === item.key ? "./" : `${basePath}${item.path}`;
+      const href = getNavItemHref(item, currentPage, basePath);
       const activeClass = currentPage === item.key ? ' class="is-active" aria-current="page"' : "";
-      return `<a href="${href}"${activeClass}>${item.label}</a>`;
+      return `
+        <a href="${href}"${activeClass}>
+          <span class="nav-label nav-label-default">${item.label}</span>
+          <span class="nav-label nav-label-hover" aria-hidden="true">${item.hoverLabel}</span>
+        </a>
+      `;
     })
     .join("");
 
@@ -43,9 +51,9 @@ function renderSiteHeader() {
       <div class="container header-inner">
         <a class="logo" href="${basePath}index.html" aria-label="Home">
           <img
-            src="${basePath}images/${usesOverlayHeader ? "로고 (2).png" : "로고 (1).png"}"
-            data-top-logo="${basePath}images/로고 (2).png"
-            data-scrolled-logo="${basePath}images/로고 (1).png"
+            src="${basePath}images/로고.png"
+            data-top-logo="${basePath}images/로고.png"
+            data-scrolled-logo="${basePath}images/로고.png"
             alt="Company logo"
           />
         </a>
@@ -53,30 +61,6 @@ function renderSiteHeader() {
         <nav class="site-nav" aria-label="Main navigation">
           <div class="nav-links">
             ${navLinks}
-          </div>
-
-          <div class="nav-actions">
-            <a
-              class="nav-cta nav-blog"
-              href="${siteConfig.blogUrl}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="${basePath}images/${usesOverlayHeader ? "흰색블로그로고.png" : "블로그로고.png"}"
-                data-top-logo="${basePath}images/흰색블로그로고.png"
-                data-scrolled-logo="${basePath}images/블로그로고.png"
-                alt="Blog"
-              />
-            </a>
-            <a
-              class="nav-cta"
-              href="${siteConfig.storeUrl}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Store
-            </a>
           </div>
 
           <button
@@ -100,7 +84,6 @@ function syncHeaderScrollState() {
   if (!header) return;
 
   const logo = header.querySelector(".logo img");
-  const blogLogo = header.querySelector(".nav-blog img");
   const isScrolled = window.scrollY > 24;
   const targetState = isScrolled ? "scrolled" : "top";
   if (header.dataset.scrollState === targetState) return;
@@ -110,7 +93,6 @@ function syncHeaderScrollState() {
   header.classList.toggle("is-scrolled", isScrolled);
 
   switchImage(logo, isScrolled ? logo?.dataset.scrolledLogo : logo?.dataset.topLogo);
-  switchImage(blogLogo, isScrolled ? blogLogo?.dataset.scrolledLogo : blogLogo?.dataset.topLogo);
 }
 
 function switchImage(image, nextSrc) {
@@ -128,8 +110,9 @@ function renderSiteFooter() {
   if (!footerTarget) return;
 
   const basePath = getBasePath(getCurrentPage());
+  const currentPage = getCurrentPage();
   const navLinks = siteConfig.navItems
-    .map((item) => `<a href="${basePath}${item.path}">${item.label}</a>`)
+    .map((item) => `<a href="${getNavItemHref(item, currentPage, basePath)}">${item.label}</a>`)
     .join("");
 
   footerTarget.outerHTML = `
@@ -137,17 +120,11 @@ function renderSiteFooter() {
       <div class="container footer-inner">
         <nav class="footer-nav" aria-label="Footer navigation">
           ${navLinks}
-          <a class="footer-blog-link" href="${siteConfig.blogUrl}" target="_blank" rel="noopener noreferrer">
-            <img src="${basePath}images/블로그로고.png" alt="Blog" />
-          </a>
-          <a class="footer-store-link" href="${siteConfig.storeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Store">
-            🛒
-          </a>
         </nav>
 
         <div class="footer-content">
           <a class="footer-logo" href="${basePath}index.html" aria-label="Home">
-            <img src="${basePath}images/로고 (1).png" alt="Company logo" />
+            <img src="${basePath}images/로고.png" alt="Company logo" />
           </a>
 
           <div class="footer-info footer-service">
@@ -434,8 +411,193 @@ function initMobileNavigation() {
   });
 }
 
+function initHomeHeroSlider() {
+  const slider = document.querySelector(".home-hero-slider");
+  const track = slider?.querySelector(".home-hero-track");
+  const prevButton = slider?.querySelector(".home-hero-arrow-prev");
+  const nextButton = slider?.querySelector(".home-hero-arrow-next");
+  const pagination = slider?.querySelector(".home-hero-pagination");
+  if (!slider || !track || track.children.length < 2) return;
+
+  const slideTotal = track.children.length;
+  let autoTimer = null;
+  let isDragging = false;
+  let isAnimating = false;
+  let currentIndex = 0;
+  let startX = 0;
+  let dragOffset = 0;
+
+  const getSlideWidth = () => slider.clientWidth;
+
+  const updatePagination = () => {
+    const dots = Array.from(pagination?.querySelectorAll(".home-hero-dot") || []);
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("is-active", index === currentIndex);
+    });
+  };
+
+  const createPagination = () => {
+    if (!pagination) return;
+
+    pagination.classList.toggle("has-fade", slideTotal > 5);
+    pagination.innerHTML = Array.from({ length: slideTotal }, (_, index) => {
+      return `<button class="home-hero-dot" type="button" aria-label="Go to image ${index + 1}"></button>`;
+    }).join("");
+
+    pagination.querySelectorAll(".home-hero-dot").forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        if (index === currentIndex || isAnimating) return;
+        stopAuto();
+        jumpToIndex(index);
+        startAuto();
+      });
+    });
+
+    updatePagination();
+  };
+
+  const stopAuto = () => {
+    if (!autoTimer) return;
+    window.clearInterval(autoTimer);
+    autoTimer = null;
+  };
+
+  const startAuto = () => {
+    stopAuto();
+    autoTimer = window.setInterval(() => {
+      slideNext();
+    }, 3000);
+  };
+
+  const resetTrack = () => {
+    track.style.transition = "none";
+    track.style.transform = `translateX(${-getSlideWidth()}px)`;
+    track.offsetHeight;
+    track.style.transition = "";
+  };
+
+  const slideNext = () => {
+    if (isAnimating) return;
+
+    isAnimating = true;
+    track.style.transition = "";
+    track.style.transform = `translateX(${-getSlideWidth() * 2}px)`;
+
+    window.setTimeout(() => {
+      track.append(track.firstElementChild);
+      resetTrack();
+      currentIndex = (currentIndex + 1) % slideTotal;
+      updatePagination();
+      isAnimating = false;
+    }, 540);
+  };
+
+  const slidePrev = () => {
+    if (isAnimating) return;
+
+    isAnimating = true;
+    track.style.transition = "";
+    track.style.transform = "translateX(0)";
+
+    window.setTimeout(() => {
+      track.prepend(track.lastElementChild);
+      resetTrack();
+      currentIndex = (currentIndex - 1 + slideTotal) % slideTotal;
+      updatePagination();
+      isAnimating = false;
+    }, 540);
+  };
+
+  const jumpToIndex = (targetIndex) => {
+    const forwardSteps = (targetIndex - currentIndex + slideTotal) % slideTotal;
+    const backwardSteps = (currentIndex - targetIndex + slideTotal) % slideTotal;
+    const shouldMoveForward = forwardSteps <= backwardSteps;
+    const steps = shouldMoveForward ? forwardSteps : backwardSteps;
+
+    for (let i = 0; i < steps; i += 1) {
+      if (shouldMoveForward) {
+        track.append(track.firstElementChild);
+      } else {
+        track.prepend(track.lastElementChild);
+      }
+    }
+
+    currentIndex = targetIndex;
+    resetTrack();
+    updatePagination();
+  };
+
+  const finishDrag = () => {
+    if (!isDragging) return;
+
+    const threshold = slider.clientWidth * 0.16;
+    slider.classList.remove("is-dragging");
+    isDragging = false;
+
+    if (Math.abs(dragOffset) > threshold) {
+      if (dragOffset < 0) {
+        slideNext();
+      } else {
+        slidePrev();
+      }
+    } else {
+      track.style.transition = "";
+      track.style.transform = `translateX(${-getSlideWidth()}px)`;
+    }
+
+    dragOffset = 0;
+    startAuto();
+  };
+
+  slider.addEventListener("pointerdown", (event) => {
+    if (isAnimating) return;
+    if (event.target.closest("button")) return;
+
+    isDragging = true;
+    startX = event.clientX;
+    dragOffset = 0;
+    track.style.transition = "none";
+    slider.classList.add("is-dragging");
+    slider.setPointerCapture(event.pointerId);
+    stopAuto();
+  });
+
+  slider.addEventListener("pointermove", (event) => {
+    if (!isDragging) return;
+    dragOffset = event.clientX - startX;
+    track.style.transform = `translateX(${-getSlideWidth() + dragOffset}px)`;
+  });
+
+  slider.addEventListener("pointerup", (event) => {
+    if (slider.hasPointerCapture(event.pointerId)) {
+      slider.releasePointerCapture(event.pointerId);
+    }
+    finishDrag();
+  });
+
+  slider.addEventListener("pointercancel", finishDrag);
+  slider.addEventListener("lostpointercapture", finishDrag);
+  window.addEventListener("resize", resetTrack);
+  prevButton?.addEventListener("click", () => {
+    stopAuto();
+    slidePrev();
+    startAuto();
+  });
+  nextButton?.addEventListener("click", () => {
+    stopAuto();
+    slideNext();
+    startAuto();
+  });
+
+  track.prepend(track.lastElementChild);
+  createPagination();
+  resetTrack();
+  startAuto();
+}
+
 renderSiteHeader();
 renderSiteFooter();
+initHomeHeroSlider();
 animateHeroTitle();
 initBuyerMeetingGallery();
 initCertificateLightbox();
