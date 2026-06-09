@@ -1,6 +1,6 @@
 const siteConfig = {
-  blogUrl: "https://blog.naver.com/eyeana",
-  storeUrl: "https://smartstore.naver.com/sajasan",
+  blogUrl: "#",
+  storeUrl: "#",
   navItems: [
     { key: "about", label: "Company Overview", path: "about/" },
     { key: "works", label: "Product Description", path: "works/" },
@@ -75,7 +75,7 @@ function renderSiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Naver Store
+              Store
             </a>
           </div>
 
@@ -140,7 +140,7 @@ function renderSiteFooter() {
           <a class="footer-blog-link" href="${siteConfig.blogUrl}" target="_blank" rel="noopener noreferrer">
             <img src="${basePath}images/블로그로고.png" alt="Blog" />
           </a>
-          <a class="footer-store-link" href="${siteConfig.storeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Naver Store">
+          <a class="footer-store-link" href="${siteConfig.storeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Store">
             🛒
           </a>
         </nav>
@@ -152,22 +152,21 @@ function renderSiteFooter() {
 
           <div class="footer-info footer-service">
             <p><strong>Customer Service</strong></p>
-            <p><strong>Phone :</strong> 041-943-0089 / 010-6805-6214</p>
+            <p><strong>Phone :</strong> 000-0000-0000</p>
             <p><strong>Business Hours :</strong> Weekdays from 10:00 AM to 6:00 PM</p>
             <p>(Lunch Break: 12:00 PM to 1:00 PM)</p>
-            <p><strong>Bank Account :</strong> NongHyup 351-0766-4099-13</p>
-            <p>(Sajasan Agricultural Cooperative Corporation)</p>
-            <p><strong>Business Name :</strong> Sajasan Agricultural Cooperative Corporation</p>
+            <p><strong>Bank Account :</strong> Bank Name 000-0000-0000-00</p>
+            <p>(Account Holder)</p>
+            <p><strong>Business Name :</strong> Company Name</p>
           </div>
 
           <div class="footer-info footer-company">
-            <p><strong>CEO :</strong> Lee Nam-hoon</p>
-            <p><strong>Headquarters :</strong> (33315) 29, Baemi-gil, Ungok-myeon,</p>
-            <p>Cheongyang-gun, Chungcheongnam-do, South Korea</p>
-            <p><strong>Business Registration Number :</strong> 310-81-31831</p>
+            <p><strong>CEO :</strong> CEO Name</p>
+            <p><strong>Headquarters :</strong> Company Address</p>
+            <p><strong>Business Registration Number :</strong> 000-00-00000</p>
             <p><strong>E-commerce Business Registration Number :</strong></p>
-            <p>2019-Chungcheongnam-do Cheongyang-15</p>
-            <p><strong>E-mail :</strong> eyeana@naver.com</p>
+            <p>0000-Region-0000</p>
+            <p><strong>E-mail :</strong> email@example.com</p>
           </div>
         </div>
       </div>
