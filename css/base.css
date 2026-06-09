@@ -13,6 +13,7 @@
 
   --container-width: 1120px;
   --button-radius: 8px;
+  --font-sans: Arial, "Noto Sans KR", sans-serif;
 }
 
 * {
@@ -27,7 +28,7 @@ body {
   margin: 0;
   color: var(--color-text);
   background: var(--color-bg);
-  font-family: Arial, "Noto Sans KR", sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.65;
 }
 

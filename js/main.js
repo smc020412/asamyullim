@@ -595,9 +595,195 @@ function initHomeHeroSlider() {
   startAuto();
 }
 
+function initHomeProductCarousel() {
+  const carousel = document.querySelector(".home-product-carousel");
+  const track = carousel?.querySelector(".home-product-track");
+  if (!carousel || !track || track.children.length < 2) return;
+
+  let offset = 0;
+  let autoTimer = null;
+  let animationFrame = null;
+  let isDragging = false;
+  let startX = 0;
+  let startOffset = 0;
+  let lastX = 0;
+  let lastTime = 0;
+  let velocity = 0;
+
+  const getStep = () => {
+    const first = track.firstElementChild;
+    const second = first?.nextElementSibling;
+    if (!first) return 0;
+
+    const firstRect = first.getBoundingClientRect();
+    const secondRect = second?.getBoundingClientRect();
+    return secondRect ? secondRect.left - firstRect.left : firstRect.width;
+  };
+
+  const render = () => {
+    track.style.transform = `translateX(${offset}px)`;
+  };
+
+  const normalize = (shouldPreserveDrag = false) => {
+    let step = getStep();
+    if (!step) return;
+
+    while (offset <= -step) {
+      offset += step;
+      if (shouldPreserveDrag) startOffset += step;
+      track.append(track.firstElementChild);
+      step = getStep();
+    }
+
+    while (offset > 0) {
+      track.prepend(track.lastElementChild);
+      step = getStep();
+      offset -= step;
+      if (shouldPreserveDrag) startOffset -= step;
+    }
+  };
+
+  const stopAuto = () => {
+    if (autoTimer) {
+      window.clearTimeout(autoTimer);
+      autoTimer = null;
+    }
+
+    if (animationFrame) {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = null;
+    }
+  };
+
+  const glideAfterDrag = () => {
+    let lastFrameTime = 0;
+    const friction = 0.0038;
+    const minVelocity = 0.018;
+
+    const tick = (time) => {
+      if (!lastFrameTime) lastFrameTime = time;
+      const delta = Math.min(time - lastFrameTime, 32);
+      lastFrameTime = time;
+
+      offset += velocity * delta;
+      normalize();
+      render();
+      velocity *= Math.exp(-friction * delta);
+
+      if (Math.abs(velocity) > minVelocity) {
+        animationFrame = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      animationFrame = null;
+      startAuto();
+    };
+
+    animationFrame = window.requestAnimationFrame(tick);
+  };
+
+  const animateStep = () => {
+    if (isDragging) return;
+
+    const step = getStep();
+    if (!step) return;
+
+    const from = offset;
+    const to = offset - step * 2;
+    const duration = 8000;
+    let startTime = null;
+
+    const tick = (time) => {
+      if (!startTime) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+      const eased = (1 - Math.cos(Math.PI * progress)) / 2;
+
+      offset = from + (to - from) * eased;
+      render();
+
+      if (progress < 1) {
+        animationFrame = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      normalize();
+      render();
+      animationFrame = null;
+      autoTimer = window.setTimeout(animateStep, 420);
+    };
+
+    animationFrame = window.requestAnimationFrame(tick);
+  };
+
+  const startAuto = () => {
+    stopAuto();
+    autoTimer = window.setTimeout(animateStep, 420);
+  };
+
+  carousel.addEventListener("pointerdown", (event) => {
+    isDragging = true;
+    startX = event.clientX;
+    startOffset = offset;
+    lastX = event.clientX;
+    lastTime = performance.now();
+    velocity = 0;
+    carousel.classList.add("is-dragging");
+    carousel.setPointerCapture(event.pointerId);
+    stopAuto();
+  });
+
+  carousel.addEventListener("pointermove", (event) => {
+    if (!isDragging) return;
+
+    const now = performance.now();
+    const deltaTime = Math.max(now - lastTime, 1);
+    const deltaX = event.clientX - lastX;
+    velocity = deltaX / deltaTime;
+    lastX = event.clientX;
+    lastTime = now;
+    offset = startOffset + event.clientX - startX;
+    normalize(true);
+    render();
+  });
+
+  const finishDrag = (event) => {
+    if (!isDragging) return;
+
+    isDragging = false;
+    carousel.classList.remove("is-dragging");
+    if (event?.pointerId && carousel.hasPointerCapture(event.pointerId)) {
+      carousel.releasePointerCapture(event.pointerId);
+    }
+
+    normalize();
+    render();
+
+    if (Math.abs(velocity) > 0.018) {
+      glideAfterDrag();
+      return;
+    }
+
+    startAuto();
+  };
+
+  carousel.addEventListener("pointerup", finishDrag);
+  carousel.addEventListener("pointercancel", finishDrag);
+  carousel.addEventListener("lostpointercapture", finishDrag);
+  window.addEventListener("resize", () => {
+    normalize();
+    render();
+  });
+
+  track.prepend(track.lastElementChild);
+  offset = -getStep();
+  render();
+  startAuto();
+}
+
 renderSiteHeader();
 renderSiteFooter();
 initHomeHeroSlider();
+initHomeProductCarousel();
 animateHeroTitle();
 initBuyerMeetingGallery();
 initCertificateLightbox();
