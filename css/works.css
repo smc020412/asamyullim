@@ -1,1 +1,120 @@
 /* Product description page styles */
+
+.works-hero {
+  min-height: clamp(300px, 32vw, 480px);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../images/대문2.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.works-products {
+  padding: clamp(70px, 8vw, 106px) 0 clamp(82px, 9vw, 126px);
+  background: var(--color-white);
+}
+
+.works-lineup-heading {
+  margin-bottom: clamp(42px, 5vw, 66px);
+  color: var(--color-black);
+  text-align: center;
+}
+
+.works-lineup-heading h1,
+.works-lineup-heading h2 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 3vw, 3.1rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+}
+
+.works-lineup-heading p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(0.64rem, 0.78vw, 0.82rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.works-lineup-grid {
+  display: grid;
+  width: min(100% - 64px, 1120px);
+  margin: 0 auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.1vw, 30px) clamp(24px, 3.4vw, 48px);
+}
+
+.works-lineup-item {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.works-lineup-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.24s ease;
+}
+
+.works-lineup-item:hover img {
+  transform: translateY(-4px);
+}
+
+.works-products-divider {
+  width: min(100% - 64px, 1120px);
+  height: 1px;
+  margin: clamp(56px, 6vw, 82px) auto clamp(58px, 6.4vw, 88px);
+  background: #dedede;
+  border: 0;
+}
+
+.works-import-heading p {
+  font-family: inherit;
+  font-size: clamp(1rem, 1.28vw, 1.36rem);
+  line-height: 1.6;
+}
+
+@media (max-width: 860px) {
+  .works-hero {
+    min-height: 300px;
+  }
+
+  .works-products {
+    padding: 58px 0 76px;
+  }
+
+  .works-lineup-heading {
+    width: min(100% - 32px, 620px);
+    margin: 0 auto 36px;
+  }
+
+  .works-lineup-heading h1,
+  .works-lineup-heading h2 {
+    font-size: clamp(1.7rem, 8vw, 2.5rem);
+    letter-spacing: 0.1em;
+  }
+
+  .works-import-heading p {
+    font-size: clamp(0.94rem, 4vw, 1.08rem);
+  }
+
+  .works-lineup-grid {
+    width: min(100% - 36px, 620px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 22px;
+  }
+
+  .works-products-divider {
+    width: min(100% - 36px, 620px);
+    margin: 48px auto 50px;
+  }
+}
+
+@media (max-width: 520px) {
+  .works-lineup-grid {
+    width: min(100% - 56px, 320px);
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+}
